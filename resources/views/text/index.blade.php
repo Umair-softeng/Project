@@ -1,6 +1,6 @@
 @extends('layouts.contentLayoutMaster')
 
-@section('title', 'Employees')
+@section('title', 'Text Editor')
 @section('page-style')
     <style>
         .toast-message{
@@ -28,22 +28,18 @@
             <section class="invoice-list-wrapper">
                 <div class="card">
                     <div class="card-header border-bottom">
-                        <h4 class="card-title">Employees</h4>
+                        <h4 class="card-title">Text</h4>
                     </div>
                     <div class="card-body mt-2">
                         <form class="dt_adv_search" method="POST">
                             <div class="row g-1 mb-md-1">
                                 <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4">
-                                    <label class="form-label">Name:</label>
-                                    <input type="text" class="form-control dt-input dt-full-name" data-column="1" placeholder="Search By Name" data-column-index="0">
+                                    <label class="form-label">No:</label>
+                                    <input type="text" class="form-control dt-input dt-full-name" data-column="1" placeholder="Search By Text No" data-column-index="0">
                                 </div>
                                 <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4">
-                                    <label class="form-label">Cnic:</label>
-                                    <input type="text" class="form-control dt-input" data-column="4" placeholder="Search By Cnic" data-column-index="1">
-                                </div>
-                                <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4">
-                                    <label class="form-label">Grade:</label>
-                                    <input type="text" class="form-control dt-input" data-column="5" placeholder="Search By Grade" data-column-index="2">
+                                    <label class="form-label">Text:</label>
+                                    <input type="text" class="form-control dt-input" data-column="2" placeholder="Search By Text" data-column-index="1">
                                 </div>
                             </div>
                         </form>
@@ -57,13 +53,10 @@
                                            id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
                                         <thead>
                                         <tr role="row">
-                                            <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 46px;" aria-label="Employee No: activate to sort column ascending" aria-sort="descending">#</th>
-                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 70px;" aria-label="Name: activate to sort column ascending">Name</th>
-                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 70px;" aria-label="Father Name: activate to sort column ascending">Father Name</th>
-                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 70px;" aria-label="DOB: activate to sort column ascending">DOB</th>
-                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 70px;" aria-label="Cnic: activate to sort column ascending">Cnic</th>
-                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 70px;" aria-label="Mobile No: activate to sort column ascending">Mobile No</th
-                                            @can('employee_create')
+                                            <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="No: activate to sort column ascending" aria-sort="descending">#</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Text: activate to sort column ascending">Text</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending">Date</th>
+                                            @can('text_create')
                                                 <th class="cell-fit sorting_disabled" rowspan="1" colspan="1" style="width: 80px;"
                                                     aria-label="Actions">Actions
                                                 </th>
@@ -89,19 +82,17 @@
         var msg = "{{ Session::get('message') }}";
         var exist = "{{ Session::has('message') }}";
         if (exist) {
-            if(msg === "Employee Added Successfully!!"){
+            if(msg === "Text Added Successfully!!"){
                 toastr.success(msg);
-            }else if(msg === "Employee Deleted Successfully!!"){
+            }else if(msg === "Text Deleted Successfully!!"){
                 toastr.error(msg);
-            }else if(msg === "Employee Updated Successfully!!"){
+            }else if(msg === "Text Updated Successfully!!"){
                 toastr.info(msg);
             }
         }
 
-        // var allComplaintTable = $('.invoice-list-table').DataTable();
-        var dtInvoiceTable = $('.invoice-list-table');
         function filterColumn(i, val) {
-            if (i == 7) {
+            if (i == 5) {
                 $('.invoice-list-table').dataTable().fnDraw();
             } else {
                 $('.invoice-list-table').DataTable().column(i).search(val, false, true).draw();
@@ -128,17 +119,14 @@
             // datatable
             if (dtInvoiceTable.length) {
                 dtInvoiceTable.DataTable({
-                    ajax: "{{route('employee.index')}}", // JSON file to add data
+                    ajax: "{{route('textEditor.index')}}", // JSON file to add data
                     autoWidth: false,
                     columns: [
                         // columns according to JSON
-                        { data: 'employeeID' },
-                        { data: 'name'},
-                        { data: 'fatherName'},
-                        { data: 'dob'},
-                        { data: 'cnic'},
-                        { data: 'mobileNo'},
-                        @can('employee_create')
+                        { data: 'textID' },
+                        { data: 'text'},
+                        { data: 'date'},
+                        @can('text_create')
                             { data: 'actions' }
                         @endcan
                     ],
@@ -148,9 +136,9 @@
                             targets: 0,
                             width: '46px',
                             render: function (data, type, full, meta) {
-                                var $invoiceId = full['employeeID'];
+                                var $invoiceId = full['textID'];
                                 // Creates full output for row
-                                var $rowOutput = '<a  class="fw-bold" href="show/' + $invoiceId + '" style="color: #0c5531"> #' + $invoiceId + '</a>';
+                                var $rowOutput = '<a  class="fw-bold" href="textEditor/show/' + $invoiceId + '"> #' + $invoiceId + '</a>';
                                 return $rowOutput;
                             }
                         },
@@ -176,7 +164,7 @@
                         }
                     },
                     buttons: [
-                            @can('employee_create')
+                            @can('text_create')
                         {
                             extend: 'collection',
                             className: 'btn btn-outline-secondary dropdown-toggle me-2',
@@ -186,25 +174,25 @@
                                     extend: 'print',
                                     text: feather.icons['printer'].toSvg({class: 'font-small-4 me-50'}) + 'Print',
                                     className: 'dropdown-item',
-                                    exportOptions: {columns: [0, 1, 2, 3, 4, 5]}
+                                    exportOptions: {columns: [0, 1, 2, 3]}
                                 },
                                 {
                                     extend: 'csv',
                                     text: feather.icons['file-text'].toSvg({class: 'font-small-4 me-50'}) + 'Csv',
                                     className: 'dropdown-item',
-                                    exportOptions: {columns: [0, 1, 2, 3, 4, 5]}
+                                    exportOptions: {columns: [0, 1, 2, 3]}
                                 },
                                 {
                                     extend: 'excel',
                                     text: feather.icons['file'].toSvg({class: 'font-small-4 me-50'}) + 'Excel',
                                     className: 'dropdown-item',
-                                    exportOptions: {columns: [0, 1, 2, 3, 4, 5]}
+                                    exportOptions: {columns: [0, 1, 2, 3]}
                                 },
                                 {
                                     extend: 'pdf',
                                     text: feather.icons['clipboard'].toSvg({class: 'font-small-4 me-50'}) + 'Pdf',
                                     className: 'dropdown-item',
-                                    exportOptions: {columns: [0, 1, 2, 3, 4, 5]},
+                                    exportOptions: {columns: [0, 1, 2, 3]},
                                     pageSize: 'LEGAL',
                                     orientation: 'landscape',
                                     pageMargins: [ 20, 20, 20, 20 ],
@@ -213,7 +201,7 @@
                                     extend: 'copy',
                                     text: feather.icons['copy'].toSvg({class: 'font-small-4 me-50'}) + 'Copy',
                                     className: 'dropdown-item',
-                                    exportOptions: {columns: [0, 1, 2, 3, 4, 5]}
+                                    exportOptions: {columns: [0, 1, 2, 3]}
                                 }
                             ],
                             init: function (api, node, config) {
@@ -225,10 +213,10 @@
                             }
                         },
                         {
-                            text: 'Add Employee',
+                            text: 'Add Text',
                             className: 'add-new btn btn-primary',
                             action: function (){
-                                window.location = '{{route('employee.create')}}'
+                                window.location = '{{route('textEditor.create')}}'
                             },
                             init: function (api, node, config) {
                                 $(node).removeClass('btn-secondary');

@@ -45,7 +45,7 @@ class UserController extends Controller
         }
 
         $breadcrumbs = [
-            ['link' => "dashboard/analytics", 'name' => "Home"], ['name' => 'List']
+            ['name' => 'List']
         ];
 
         return view('admin.user.index', compact('breadcrumbs'));
@@ -53,10 +53,11 @@ class UserController extends Controller
 
     public function create()
     {
-        abort_if(Gate::denies('user_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+//        abort_if(Gate::denies('user_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $roles = \App\Models\Role::all()->sortBy('roleName');
         $breadcrumbs = [
-            ['link' => "dashboard/analytics", 'name' => "Home"], ['link' => "admin/user", 'name' => "User"], ['name' => 'Details']
+            ['link' => "admin/user", 'name' => "Index"], ['name' => "Create"]
+
         ];
         return view('admin.user.create',compact('roles', 'breadcrumbs'));
     }
@@ -69,7 +70,7 @@ class UserController extends Controller
                 'password' => Hash::make($request->password)
             ]);
             $user = User::create($request->all());
-            $user->roles()->attach($request->roleID);
+            $user->roles()->attach(2);
             DB::commit();
             return redirect()->route('user.index')->with('message', 'User Added Successfully!!');
         } catch (\Exception $e) {
@@ -83,7 +84,7 @@ class UserController extends Controller
         abort_if(Gate::denies('user_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $roles = Role::all()->sortBy('roleName');
         $breadcrumbs = [
-            ['link' => "dashboard/analytics", 'name' => "Home"], ['link' => "admin/user", 'name' => "User"], ['name' => 'Details']
+            ['link' => "admin/user", 'name' => "Index"], ['name' => "Show"]
         ];
         return view('admin.user.show', compact('user', 'roles', 'breadcrumbs'));
     }
@@ -97,7 +98,7 @@ class UserController extends Controller
             return $item->roleID;
         })->toArray();
         $breadcrumbs = [
-            ['link' => "dashboard/analytics", 'name' => "Home"], ['link' => "admin/user", 'name' => "User"], ['name' => 'Edit']
+            ['link' => "admin/user", 'name' => "Index"], ['name' => "Edit"]
         ];
         return view('admin.user.edit',compact('user','roles','userRoles', 'breadcrumbs'));
     }
@@ -114,7 +115,7 @@ class UserController extends Controller
                 'password' => $newPassword
             ]);
             $user->update($request->all());
-            $user->roles()->sync($request->roleID);
+            $user->roles()->sync(2);
             DB::commit();
             return redirect()->route('user.index')->with('message', 'User Updated Successfully!!');
         } catch (\Exception $e) {

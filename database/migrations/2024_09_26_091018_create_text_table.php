@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCompanyTypeTable extends Migration
+class CreateTextTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateCompanyTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('companyType', function (Blueprint $table) {
-            $table->id('companyTypeID');
-            $table->string('name');
-            $table->timestamps();
+        Schema::create('text', function (Blueprint $table) {
+            $table->id('textID');
+            $table->longText('text');
+            $table->date('date');
+            $table->foreignId('userID')->constrained('users', 'userID');
         });
     }
 
@@ -27,6 +28,6 @@ class CreateCompanyTypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companyType');
+        Schema::dropIfExists('text');
     }
 }

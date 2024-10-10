@@ -39,7 +39,7 @@
                         </g>
                     </g>
                 </svg>
-                <h2 class="brand-text text-primary ms-1">Job Placement Cell</h2>
+                <h2 class="brand-text text-primary ms-1">Technical Online Interview Platform</h2>
             </a>
             <!-- /Brand logo-->
 
@@ -54,7 +54,7 @@
             <!-- Register-->
             <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
                 <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
-                    <h2 class="card-title fw-bold mb-1">Welcome Job Placement Cell! 👋</h2>
+                    <h2 class="card-title fw-bold mb-1">Welcome Technical Online Interview Platform! 👋</h2>
                     <p class="card-text mb-2">Please create your account and start the adventure</p>
                     <form action="{{route('user.store')}}" class="row gy-1 pt-75 needs-validation" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -88,20 +88,20 @@
                                 </em>
                             @endif
                         </div>
-                        <div class="form-check">
-                            @foreach ($roles as $role)
-                                <label class="ms-1 me-2 form-check-label @if($errors->has('roleID')) is-invalid @endif">
-                                    <input class="form-check-input" type="checkbox" name="roleID[]" value="{{$role->roleID}}"
-                                        {{ (is_array(old('roleID')) && in_array($role->roleID, old('roleID'))) ? ' checked' : '' }}
-                                    > {{$role->roleName}}
-                                </label>
-                            @endforeach
-                            @if($errors->has('roleID'))
-                                <em class="invalid-feedback">
-                                    {{ $errors->first('roleID') }}
-                                </em>
-                            @endif
-                        </div>
+{{--                        <div class="form-check">--}}
+{{--                            @foreach ($roles as $role)--}}
+{{--                                <label class="ms-1 me-2 form-check-label @if($errors->has('roleID')) is-invalid @endif">--}}
+{{--                                    <input class="form-check-input" type="checkbox" name="roleID[]" value="{{$role->roleID}}"--}}
+{{--                                        {{ (is_array(old('roleID')) && in_array($role->roleID, old('roleID'))) ? ' checked' : '' }}--}}
+{{--                                    > {{$role->roleName}}--}}
+{{--                                </label>--}}
+{{--                            @endforeach--}}
+{{--                            @if($errors->has('roleID'))--}}
+{{--                                <em class="invalid-feedback">--}}
+{{--                                    {{ $errors->first('roleID') }}--}}
+{{--                                </em>--}}
+{{--                            @endif--}}
+{{--                        </div>--}}
                         <button type="submit" class="btn btn-primary w-100 mt-1">Sign In</button>
                     </form>
                     <p class="text-center mt-2">

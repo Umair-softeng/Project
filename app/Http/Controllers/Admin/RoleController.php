@@ -43,7 +43,7 @@ class RoleController extends Controller
             return $table->make(true);
         }
         $breadcrumbs = [
-            ['link' => "dashboard/analytics", 'name' => "Home"], ['name' => "List"]
+            ['name' => "List"]
         ];
         return view('admin.roles.index', compact('breadcrumbs'));
     }
@@ -54,7 +54,7 @@ class RoleController extends Controller
         $accessLevels = \App\Models\AccessLevel::all();
         $privileges = \App\Models\Privileges::with(['modules','accessLevel'])->get();
         $breadcrumbs = [
-            ['link' => "dashboard/analytics", 'name' => "Home"], ['link' => "admin/role", 'name' => "Roles"], ['name' => "Create"]
+            ['link' => "admin/role", 'name' => "Index"], ['name' => "Create"]
         ];
         return view('admin.roles.create',compact('accessLevels','privileges', 'breadcrumbs'));
     }
@@ -80,7 +80,8 @@ class RoleController extends Controller
         abort_if(Gate::denies('roles_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $role = Role::with('privileges.modules')->find($role->roleID);
         $breadcrumbs = [
-            ['link' => "dashboard/analytics", 'name' => "Home"], ['link' => "admin/role", 'name' => "Roles"], ['name' => "Details"]
+            ['link' => "admin/role", 'name' => "Index"], ['name' => "Show"]
+
         ];
         return view('admin.roles.show', compact('role', 'breadcrumbs'));
     }
@@ -94,7 +95,8 @@ class RoleController extends Controller
             return $item->privilegeID;
         })->toArray();
         $breadcrumbs = [
-            ['link' => "dashboard/analytics", 'name' => "Home"], ['link' => "admin/role", 'name' => "Roles"], ['name' => "Edit"]
+            ['link' => "admin/role", 'name' => "Index"], ['name' => "Edit"]
+
         ];
         return view('admin.roles.edit',compact('role','accessLevels','privileges','rolePrivileges', 'breadcrumbs'));
     }

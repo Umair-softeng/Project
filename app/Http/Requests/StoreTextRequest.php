@@ -3,8 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Symfony\Component\HttpFoundation\Response;
+use Gate;
 
-class StoreStudentRequest extends FormRequest
+class StoreTextRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,6 +15,8 @@ class StoreStudentRequest extends FormRequest
      */
     public function authorize()
     {
+        abort_if(Gate::denies('text_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         return true;
     }
 
@@ -24,12 +28,7 @@ class StoreStudentRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:6|max:30',
-            'email' => 'required|unique:student',
-            'mobileNo' => 'required|min:11',
-            'cnic' => 'required|min:13',
-            'qualification' => 'required',
-            'degree' => 'required',
+            "text" => "required"
         ];
     }
 }

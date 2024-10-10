@@ -16,13 +16,13 @@ use Illuminate\Support\Facades\Route;
 
 // Main Page Route
 Auth::routes(["register" => false]);
-Route::get('/', [\App\Http\Controllers\StudentController::class, 'index']);
+Route::get('/', [\App\Http\Controllers\Auth\LoginController::class, 'showLoginForm']);
+Route::get('/user/create', [App\Http\Controllers\Admin\UserController::class, 'create'])->name('user.create');
+Route::post('/user/store', [App\Http\Controllers\Admin\UserController::class, 'store'])->name('user.store');
 Route::group(['middleware' => 'auth'], function(){
     //User Roles
     Route::group(['prefix' => 'admin'], function (){
         Route::get('/user', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('user.index');
-        Route::get('/user/create', [App\Http\Controllers\Admin\UserController::class, 'create'])->name('user.create');
-        Route::post('/user/store', [App\Http\Controllers\Admin\UserController::class, 'store'])->name('user.store');
         Route::get('/user/show/{user}', [App\Http\Controllers\Admin\UserController::class, 'show'])->name('user.show');
         Route::get('/user/{user}/edit', [App\Http\Controllers\Admin\UserController::class, 'edit'])->name('user.edit');
         Route::put('user/{user}', [App\Http\Controllers\Admin\UserController::class, 'update'])->name('user.update');
@@ -36,23 +36,31 @@ Route::group(['middleware' => 'auth'], function(){
         Route::delete('/role/{role}', [App\Http\Controllers\Admin\RoleController::class, 'destroy'])->name('role.destroy');
     });
 
-    //Student
-    Route::get('/student', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
-    Route::get('/student/create', [App\Http\Controllers\StudentController::class, 'create'])->name('student.create');
-    Route::post('/student/store', [App\Http\Controllers\StudentController::class, 'store'])->name('student.store');
-    Route::get('/student/show/{student}', [App\Http\Controllers\StudentController::class, 'show'])->name('student.show');
-    Route::get('/student/{student}/edit', [App\Http\Controllers\StudentController::class, 'edit'])->name('student.edit');
-    Route::put('student/{student}', [App\Http\Controllers\StudentController::class, 'update'])->name('student.update');
-    Route::delete('/student/{student}', [App\Http\Controllers\StudentController::class, 'destroy'])->name('student.destroy');
+    //Text Editor
+    Route::get('/textEditor', [App\Http\Controllers\TextController::class, 'index'])->name('textEditor.index');
+    Route::get('/textEditor/create', [App\Http\Controllers\TextController::class, 'create'])->name('textEditor.create');
+    Route::post('/textEditor/store', [App\Http\Controllers\TextController::class, 'store'])->name('textEditor.store');
+    Route::get('/textEditor/show/{textEditor}', [App\Http\Controllers\TextController::class, 'show'])->name('textEditor.show');
+    Route::get('/textEditor/{textEditor}/edit', [App\Http\Controllers\TextController::class, 'edit'])->name('textEditor.edit');
+    Route::put('textEditor/{textEditor}', [App\Http\Controllers\TextController::class, 'update'])->name('textEditor.update');
+    Route::delete('/textEditor/{textEditor}', [App\Http\Controllers\TextController::class, 'destroy'])->name('textEditor.destroy');
 
+    //Code Editor
+    Route::get('/codeEditor', [App\Http\Controllers\CodeController::class, 'index'])->name('codeEditor.index');
+    Route::get('/codeEditor/create', [App\Http\Controllers\CodeController::class, 'create'])->name('codeEditor.create');
+    Route::post('/codeEditor/store', [App\Http\Controllers\CodeController::class, 'store'])->name('codeEditor.store');
+    Route::get('/codeEditor/show/{codeEditor}', [App\Http\Controllers\CodeController::class, 'show'])->name('codeEditor.show');
+    Route::get('/codeEditor/{codeEditor}/edit', [App\Http\Controllers\CodeController::class, 'edit'])->name('codeEditor.edit');
+    Route::put('codeEditor/{codeEditor}', [App\Http\Controllers\CodeController::class, 'update'])->name('codeEditor.update');
+    Route::delete('/codeEditor/{codeEditor}', [App\Http\Controllers\CodeController::class, 'destroy'])->name('codeEditor.destroy');
     //Company
-    Route::get('/company', [App\Http\Controllers\CompanyController::class, 'index'])->name('company.index');
-    Route::get('/company/create', [App\Http\Controllers\CompanyController::class, 'create'])->name('company.create');
-    Route::post('/company/store', [App\Http\Controllers\CompanyController::class, 'store'])->name('company.store');
-    Route::get('/company/show/{company}', [App\Http\Controllers\CompanyController::class, 'show'])->name('company.show');
-    Route::get('/company/{company}/edit', [App\Http\Controllers\CompanyController::class, 'edit'])->name('company.edit');
-    Route::put('company/{company}', [App\Http\Controllers\CompanyController::class, 'update'])->name('company.update');
-    Route::delete('/company/{company}', [App\Http\Controllers\CompanyController::class, 'destroy'])->name('company.destroy');
+//    Route::get('/company', [App\Http\Controllers\CompanyController::class, 'index'])->name('company.index');
+//    Route::get('/company/create', [App\Http\Controllers\CompanyController::class, 'create'])->name('company.create');
+//    Route::post('/company/store', [App\Http\Controllers\CompanyController::class, 'store'])->name('company.store');
+//    Route::get('/company/show/{company}', [App\Http\Controllers\CompanyController::class, 'show'])->name('company.show');
+//    Route::get('/company/{company}/edit', [App\Http\Controllers\CompanyController::class, 'edit'])->name('company.edit');
+//    Route::put('company/{company}', [App\Http\Controllers\CompanyController::class, 'update'])->name('company.update');
+//    Route::delete('/company/{company}', [App\Http\Controllers\CompanyController::class, 'destroy'])->name('company.destroy');
 
 
 });

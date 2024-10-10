@@ -1,6 +1,6 @@
 @extends('layouts.contentLayoutMaster')
 
-@section('title', 'Student Detail')
+@section('title', 'Code Editor')
 @section('page-style')
     <style>
         .toast-message{
@@ -28,22 +28,14 @@
             <section class="invoice-list-wrapper">
                 <div class="card">
                     <div class="card-header border-bottom">
-                        <h4 class="card-title">Student</h4>
+                        <h4 class="card-title">Code</h4>
                     </div>
                     <div class="card-body mt-2">
                         <form class="dt_adv_search" method="POST">
                             <div class="row g-1 mb-md-1">
                                 <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4">
-                                    <label class="form-label">Student No:</label>
-                                    <input type="text" class="form-control dt-input dt-full-name" data-column="1" placeholder="Search By Student No" data-column-index="0">
-                                </div>
-                                <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4">
-                                    <label class="form-label">Student Name:</label>
-                                    <input type="text" class="form-control dt-input" data-column="4" placeholder="Search By Student Name" data-column-index="1">
-                                </div>
-                                <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4">
-                                    <label class="form-label">Cnic:</label>
-                                    <input type="text" class="form-control dt-input" data-column="5" placeholder="Search By Cnic" data-column-index="2">
+                                    <label class="form-label">No:</label>
+                                    <input type="text" class="form-control dt-input dt-full-name" data-column="1" placeholder="Search By Code No" data-column-index="0">
                                 </div>
                             </div>
                         </form>
@@ -57,11 +49,10 @@
                                            id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
                                         <thead>
                                         <tr role="row">
-                                            <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Student No: activate to sort column ascending" aria-sort="descending">#</th>
-                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending">Name</th>
-                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Father Name: activate to sort column ascending">Father Name</th>
-                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Cnic: activate to sort column ascending">Cnic</th>
-                                            @can('student_create')
+                                            <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="No: activate to sort column ascending" aria-sort="descending">#</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Code: activate to sort column ascending">Code</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending">Date</th>
+                                            @can('code_create')
                                                 <th class="cell-fit sorting_disabled" rowspan="1" colspan="1" style="width: 80px;"
                                                     aria-label="Actions">Actions
                                                 </th>
@@ -87,11 +78,11 @@
         var msg = "{{ Session::get('message') }}";
         var exist = "{{ Session::has('message') }}";
         if (exist) {
-            if(msg === "Student Added Successfully!!"){
+            if(msg === "Code Added Successfully!!"){
                 toastr.success(msg);
-            }else if(msg === "Student Deleted Successfully!!"){
+            }else if(msg === "Code Deleted Successfully!!"){
                 toastr.error(msg);
-            }else if(msg === "Student Updated Successfully!!"){
+            }else if(msg === "Code Updated Successfully!!"){
                 toastr.info(msg);
             }
         }
@@ -124,16 +115,15 @@
             // datatable
             if (dtInvoiceTable.length) {
                 dtInvoiceTable.DataTable({
-                    ajax: "{{route('student.index')}}", // JSON file to add data
+                    ajax: "{{route('codeEditor.index')}}", // JSON file to add data
                     autoWidth: false,
                     columns: [
                         // columns according to JSON
-                        { data: 'studentID' },
-                        { data: 'name'},
-                        { data: 'fatherName'},
-                        { data: 'cnic'},
-                        @can('student_create')
-                            { data: 'actions' }
+                        { data: 'codeID' },
+                        { data: 'code'},
+                        { data: 'date'},
+                            @can('code_create')
+                        { data: 'actions' }
                         @endcan
                     ],
                     columnDefs: [
@@ -142,9 +132,9 @@
                             targets: 0,
                             width: '46px',
                             render: function (data, type, full, meta) {
-                                var $invoiceId = full['studentID'];
+                                var $invoiceId = full['codeID'];
                                 // Creates full output for row
-                                var $rowOutput = '<a  class="fw-bold" href="student/show/' + $invoiceId + '" style="color: #0c5531"> #' + $invoiceId + '</a>';
+                                var $rowOutput = '<a  class="fw-bold" href="codeEditor/show/' + $invoiceId + '"> #' + $invoiceId + '</a>';
                                 return $rowOutput;
                             }
                         },
@@ -170,7 +160,7 @@
                         }
                     },
                     buttons: [
-                            @can('student_create')
+                            @can('code_create')
                         {
                             extend: 'collection',
                             className: 'btn btn-outline-secondary dropdown-toggle me-2',
@@ -219,10 +209,10 @@
                             }
                         },
                         {
-                            text: 'Add Student',
+                            text: 'Add Code',
                             className: 'add-new btn btn-primary',
                             action: function (){
-                                window.location = '{{route('student.create')}}'
+                                window.location = '{{route('codeEditor.create')}}'
                             },
                             init: function (api, node, config) {
                                 $(node).removeClass('btn-secondary');

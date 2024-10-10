@@ -207,7 +207,8 @@ return [
     "Holidays" => "Holidays",
     "Admin" => "Admin",
     "Users" => "Users",
-    "Student" => "Student",
-    "Company" => "Company",
+    "Text Editor" => "Text Editor",
+    "Code Editor" => "Code Editor",
+    "Painting" => "Painting",
 
 ];

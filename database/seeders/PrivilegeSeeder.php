@@ -25,10 +25,20 @@ class PrivilegeSeeder extends Seeder
             ['moduleID' => 2, 'accessLevelID' => 3, 'privilegeCode' => 'ROLES', 'privilegeName' => 'Roles Update'],
             ['moduleID' => 2, 'accessLevelID' => 4, 'privilegeCode' => 'ROLES', 'privilegeName' => 'Roles Delete'],
 
-            ['moduleID' => 3, 'accessLevelID' => 1, 'privilegeCode' => 'STUDENT', 'privilegeName' => 'Student Create'],
-            ['moduleID' => 3, 'accessLevelID' => 2, 'privilegeCode' => 'STUDENT', 'privilegeName' => 'Student Read'],
-            ['moduleID' => 3, 'accessLevelID' => 3, 'privilegeCode' => 'STUDENT', 'privilegeName' => 'Student Update'],
-            ['moduleID' => 3, 'accessLevelID' => 4, 'privilegeCode' => 'STUDENT', 'privilegeName' => 'Student Delete'],
+            ['moduleID' => 3, 'accessLevelID' => 1, 'privilegeCode' => 'TEXT', 'privilegeName' => 'Text Create'],
+            ['moduleID' => 3, 'accessLevelID' => 2, 'privilegeCode' => 'TEXT', 'privilegeName' => 'Text Read'],
+            ['moduleID' => 3, 'accessLevelID' => 3, 'privilegeCode' => 'TEXT', 'privilegeName' => 'Text Update'],
+            ['moduleID' => 3, 'accessLevelID' => 4, 'privilegeCode' => 'TEXT', 'privilegeName' => 'Text Delete'],
+
+            ['moduleID' => 4, 'accessLevelID' => 1, 'privilegeCode' => 'CODE', 'privilegeName' => 'Code Create'],
+            ['moduleID' => 4, 'accessLevelID' => 2, 'privilegeCode' => 'CODE', 'privilegeName' => 'Code Read'],
+            ['moduleID' => 4, 'accessLevelID' => 3, 'privilegeCode' => 'CODE', 'privilegeName' => 'Code Update'],
+            ['moduleID' => 4, 'accessLevelID' => 4, 'privilegeCode' => 'CODE', 'privilegeName' => 'Code Delete'],
+
+            ['moduleID' => 5, 'accessLevelID' => 1, 'privilegeCode' => 'PAINTING', 'privilegeName' => 'Painting Create'],
+            ['moduleID' => 5, 'accessLevelID' => 2, 'privilegeCode' => 'PAINTING', 'privilegeName' => 'Painting Read'],
+            ['moduleID' => 5, 'accessLevelID' => 3, 'privilegeCode' => 'PAINTING', 'privilegeName' => 'Painting Update'],
+            ['moduleID' => 5, 'accessLevelID' => 4, 'privilegeCode' => 'PAINTING', 'privilegeName' => 'Painting Delete'],
 
         ];
         foreach ($aryPrivileges as $privilege) {
