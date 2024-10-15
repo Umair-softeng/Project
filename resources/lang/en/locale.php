@@ -210,5 +210,6 @@ return [
     "Text Editor" => "Text Editor",
     "Code Editor" => "Code Editor",
     "Painting" => "Painting",
+    "Circuit & Design" => "Circuit & Design",
 
 ];

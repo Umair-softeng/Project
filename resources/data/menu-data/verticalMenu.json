@@ -16,7 +16,7 @@
             "badgeClass": "badge badge-glow bg-primary rounded-pill ms-auto me-1",
             "icon": "fa-solid fa-newspaper fa-beat",
             "slug": "",
-            "url": "codeEditor"
+            "url": "https://www.programiz.com/javascript/online-compiler/"
 
         },
         {
@@ -24,7 +24,15 @@
             "badgeClass": "badge badge-glow bg-primary rounded-pill ms-auto me-1",
             "icon": "fa-solid fa-compass-drafting fa-beat",
             "slug": "",
-            "url": "https://kleki.com/"
+            "url": "https://kleki.com/  "
+
+        },
+        {
+            "name": "Circuit & Design",
+            "badgeClass": "badge badge-glow bg-primary rounded-pill ms-auto me-1",
+            "icon": "fa-solid fa-plug-circle-plus fa-beat",
+            "slug": "",
+            "url": "https://everycircuit.com/app"
 
         },
         {
