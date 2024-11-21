@@ -20,6 +20,7 @@ Route::get('/', [\App\Http\Controllers\Auth\LoginController::class, 'showLoginFo
 Route::get('/user/create', [App\Http\Controllers\Admin\UserController::class, 'create'])->name('user.create');
 Route::post('/user/store', [App\Http\Controllers\Admin\UserController::class, 'store'])->name('user.store');
 Route::group(['middleware' => 'auth'], function(){
+
     //User Roles
     Route::group(['prefix' => 'admin'], function (){
         Route::get('/user', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('user.index');
@@ -53,15 +54,15 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/codeEditor/{codeEditor}/edit', [App\Http\Controllers\CodeController::class, 'edit'])->name('codeEditor.edit');
     Route::put('codeEditor/{codeEditor}', [App\Http\Controllers\CodeController::class, 'update'])->name('codeEditor.update');
     Route::delete('/codeEditor/{codeEditor}', [App\Http\Controllers\CodeController::class, 'destroy'])->name('codeEditor.destroy');
-    //Company
-//    Route::get('/company', [App\Http\Controllers\CompanyController::class, 'index'])->name('company.index');
-//    Route::get('/company/create', [App\Http\Controllers\CompanyController::class, 'create'])->name('company.create');
-//    Route::post('/company/store', [App\Http\Controllers\CompanyController::class, 'store'])->name('company.store');
-//    Route::get('/company/show/{company}', [App\Http\Controllers\CompanyController::class, 'show'])->name('company.show');
-//    Route::get('/company/{company}/edit', [App\Http\Controllers\CompanyController::class, 'edit'])->name('company.edit');
-//    Route::put('company/{company}', [App\Http\Controllers\CompanyController::class, 'update'])->name('company.update');
-//    Route::delete('/company/{company}', [App\Http\Controllers\CompanyController::class, 'destroy'])->name('company.destroy');
+    
+    //Calendar
+    Route::post('/calendar/event', [App\Http\Controllers\GoogleController::class, 'createEvent'])->name('calendar.create');
 
+    // Update an event
+    Route::put('/calendar/event/{id}', [App\Http\Controllers\GoogleController::class, 'updateEvent'])->name('calendar.update');
+
+    // Delete an event
+    Route::delete('/calendar/event/{id}', [App\Http\Controllers\GoogleController::class, 'deleteEvent'])->name('calendar.delete');
 
 });
 
