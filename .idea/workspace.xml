@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e12dbeb7-b15c-49fd-89ef-8dc7e378b863" name="Changes" comment="Changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/data/menu-data/verticalMenu.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/menu-data/verticalMenu.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/locale.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/locale.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -213,6 +213,7 @@
       <workItem from="1727357424237" duration="45000" />
       <workItem from="1728595036104" duration="653000" />
       <workItem from="1729012555399" duration="292000" />
+      <workItem from="1731951029719" duration="800000" />
     </task>
     <servers />
   </component>
