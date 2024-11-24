@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GoogleController;
+use App\Services\GoogleCalendarService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,15 +58,18 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/codeEditor/{codeEditor}/edit', [App\Http\Controllers\CodeController::class, 'edit'])->name('codeEditor.edit');
     Route::put('codeEditor/{codeEditor}', [App\Http\Controllers\CodeController::class, 'update'])->name('codeEditor.update');
     Route::delete('/codeEditor/{codeEditor}', [App\Http\Controllers\CodeController::class, 'destroy'])->name('codeEditor.destroy');
-    
+
     //Calendar
-    Route::post('/calendar/event', [App\Http\Controllers\GoogleController::class, 'createEvent'])->name('calendar.create');
+    Route::get('/google/auth', [GoogleController::class, 'redirectToGoogle'])->name('google.auth');
+    Route::get('/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
 
-    // Update an event
-    Route::put('/calendar/event/{id}', [App\Http\Controllers\GoogleController::class, 'updateEvent'])->name('calendar.update');
+    // Events Routes
+    Route::prefix('events')->name('events.')->group(function () {
+        Route::resource('/', App\Http\Controllers\EventsController::class);
+        Route::get('/delete', [App\Http\Controllers\EventsController::class, 'delete']);
+        Route::get('/fetchEvents', [App\Http\Controllers\EventsController::class, 'fetchEvents']);
 
-    // Delete an event
-    Route::delete('/calendar/event/{id}', [App\Http\Controllers\GoogleController::class, 'deleteEvent'])->name('calendar.delete');
+    });
 
 });
 

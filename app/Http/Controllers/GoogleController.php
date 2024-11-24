@@ -3,103 +3,49 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Services\GoogleCalendarService;
+use Google_Client;
+use Google_Service_Calendar;
+use Google_Service_Calendar_Event;
 use Illuminate\Http\Request;
-use Google\Client;
-use Google\Service\Calendar;
 
-class GoogleController extends Controller
-{
+class GoogleController extends Controller {
+    protected $googleClient;
+
+    public function __construct()
+    {
+        $this->googleClient = new Google_Client();
+        $this->googleClient->setClientId(env('GOOGLE_CLIENT_ID'));
+        $this->googleClient->setClientSecret(env('GOOGLE_CLIENT_SECRET'));
+        $this->googleClient->setRedirectUri(env('GOOGLE_REDIRECT_URI'));
+        $this->googleClient->addScope(Google_Service_Calendar::CALENDAR);
+    }
+
+    // Step 1: Redirect the user to Google OAuth screen
     public function redirectToGoogle()
     {
-        $client = new Client();
-        $client->setClientId(config('services.google.client_id'));
-        $client->setClientSecret(config('services.google.client_secret'));
-        $client->setRedirectUri(config('services.google.redirect'));
-        $client->addScope('https://www.googleapis.com/auth/calendar');
-
-        return redirect($client->createAuthUrl());
+        $authUrl = $this->googleClient->createAuthUrl();
+        return redirect()->away($authUrl);
     }
 
+    // Step 2: Handle the callback from Google OAuth
     public function handleGoogleCallback(Request $request)
     {
-        $client = new Client();
-        $client->setClientId(config('services.google.client_id'));
-        $client->setClientSecret(config('services.google.client_secret'));
-        $client->setRedirectUri(config('services.google.redirect'));
-        $client->authenticate($request->get('code'));
+        // Retrieve the authorization code
+        $code = $request->get('code');
 
-        session(['google_token' => $client->getAccessToken()]);
+        if (isset($code)) {
+            // Authenticate the user with the provided code
+            $this->googleClient->fetchAccessTokenWithAuthCode($code);
+            $accessToken = $this->googleClient->getAccessToken();
 
-        return redirect('/event');
-    }
+            // Store the access token in session for future API requests
+            session(['google_token' => $accessToken]);
 
-    public function listEvents()
-    {
-        $client = new Client();
-        $client->setAccessToken(session('google_token'));
-
-        if ($client->isAccessTokenExpired()) {
-            // Handle token refresh logic
+            return redirect()->route('events.show'); // Redirect to the events page or anywhere else
         }
 
-        $service = new Calendar($client);
-        $calendarId = 'primary'; // Or a specific calendar ID
-        $events = $service->events->listEvents($calendarId);
-
-        return view('calendar', ['events' => $events]);
-    }
-
-    //Create Event
-    public function createEvent()
-    {
-        $client = new \Google\Client();
-        $client->setAccessToken(session('google_token'));
-
-        $service = new \Google\Service\Calendar($client);
-        $calendarId = 'primary'; // Or a specific calendar ID
-
-        $event = new Event([
-            'summary' => 'New Event',
-            'location' => 'Online',
-            'description' => 'A new event created from Laravel.',
-            'start' => ['dateTime' => '2024-11-25T10:00:00-07:00'],
-            'end' => ['dateTime' => '2024-11-25T11:00:00-07:00'],
-        ]);
-
-        $createdEvent = $service->events->insert($calendarId, $event);
-
-        return response()->json(['message' => 'Event created', 'event' => $createdEvent]);
-    }
-
-    //Update Event
-    public function updateEvent($eventId)
-    {
-        $client = new \Google\Client();
-        $client->setAccessToken(session('google_token'));
-
-        $service = new \Google\Service\Calendar($client);
-        $calendarId = 'primary'; // Or a specific calendar ID
-
-        $event = $service->events->get($calendarId, $eventId);
-        $event->setSummary('Updated Event Title');
-        $event->setDescription('Updated Event Description');
-
-        $updatedEvent = $service->events->update($calendarId, $eventId, $event);
-
-        return response()->json(['message' => 'Event updated', 'event' => $updatedEvent]);
-    }
-
-    //Delete Event 
-    public function deleteEvent($eventId)
-    {
-        $client = new \Google\Client();
-        $client->setAccessToken(session('google_token'));
-
-        $service = new \Google\Service\Calendar($client);
-        $calendarId = 'primary'; // Or a specific calendar ID
-
-        $service->events->delete($calendarId, $eventId);
-
-        return response()->json(['message' => 'Event deleted']);
+        // Handle errors if no code is received
+        return redirect()->route('google.auth')->withErrors('Error during authentication');
     }
 }

@@ -10,6 +10,17 @@ class Event extends Model
     use HasFactory;
     protected $table = 'event';
     protected $primaryKey = 'eventID';
-    protected $fillable = ['label','startDate', 'endDate', 'eventUrl', 'location', 'description'];
+    protected $fillable = [
+        'title',
+        'label',
+        'allDay',
+        'startDate',
+        'endDate',
+        'eventUrl',
+        'location',
+        'description',
+        'googleEventID',
+        'userID',
+    ];
     public $timestamps = false;
 }

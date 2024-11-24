@@ -15,12 +15,16 @@ class CreateEventTable extends Migration
     {
         Schema::create('event', function (Blueprint $table) {
             $table->id('eventID');
+            $table->string('title');
             $table->string('label');
             $table->string('startDate');
             $table->string('endDate');
+            $table->boolean('allDay')->default(0);
             $table->string('eventUrl')->nullable();
             $table->string('location')->nullable();
             $table->string('description')->nullable();
+            $table->string('googleEventID')->nullable();
+            $table->foreignId('userID')->constrained('users', 'userID');
         });
     }
 
