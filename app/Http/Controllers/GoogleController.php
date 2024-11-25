@@ -31,6 +31,7 @@ class GoogleController extends Controller {
     // Step 2: Handle the callback from Google OAuth
     public function handleGoogleCallback(Request $request)
     {
+        dd($request);
         // Retrieve the authorization code
         $code = $request->get('code');
 
