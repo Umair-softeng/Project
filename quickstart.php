@@ -10,7 +10,7 @@ function getClient()
     $client = new Google_Client();
     $client->setApplicationName('Google Calendar API PHP Quickstart');
     $client->setScopes(Google_Service_Calendar::CALENDAR);
-    $client->setAuthConfig('credentials.json');
+    $client->setAuthConfig('google.json');
     $client->setRedirectUri('http://127.0.0.1:8000//oauth2/google/callback'); // Example URI
     $client->setAccessType('offline');
     $client->setPrompt('consent');

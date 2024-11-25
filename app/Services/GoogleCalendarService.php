@@ -17,7 +17,7 @@ class GoogleCalendarService
     public function __construct()
     {
         $client = new Client();
-        $client->setAuthConfig(storage_path('app/google-calendar/credentials.json'));
+        $client->setAuthConfig(storage_path('app/google-calendar/google.json'));
         $client->addScope(Calendar::CALENDAR);
         $client->setAccessType('offline');
 
