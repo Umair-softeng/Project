@@ -1,27 +1,110 @@
 <?php
 
 namespace App\Services;
+
 use App\Models\Event;
-use Google\Client;
-use Google\Service\Calendar;
 use Google_Client;
 use Google_Service_Calendar;
 use Google_Service_Calendar_Event;
-use Google_Service_Calendar_EventDateTime;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GoogleCalendarService
 {
+    protected $client;
     protected $service;
 
     public function __construct()
     {
-        $client = new Client();
-        $client->setAuthConfig(storage_path('app/google-calendar/google.json'));
-        $client->addScope(Calendar::CALENDAR);
-        $client->setAccessType('offline');
+        $this->client = $this->getClient();
+        $this->service = new Google_Service_Calendar($this->client);
+    }
 
-        $this->service = new Calendar($client);
+    private function getClient()
+    {
+        $client = new Google_Client();
+        $client->setApplicationName('Google Calendar API PHP');
+        $client->setScopes(Google_Service_Calendar::CALENDAR);
+        $client->setAuthConfig(storage_path('app/google-calendar-credentials.json')); // Path to your credentials
+        $client->setRedirectUri(route('oauth.callback')); // Callback route
+        $client->setAccessType('offline');
+        $client->setPrompt('consent');
+
+        // Load token from storage
+        $tokenPath = storage_path('app/token.json');
+        if (file_exists($tokenPath)) {
+            $accessToken = json_decode(file_get_contents($tokenPath), true);
+            $client->setAccessToken($accessToken);
+        }
+
+        // Refresh token if access token is expired
+        if ($client->isAccessTokenExpired()) {
+            if ($client->getRefreshToken()) {
+                $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+                file_put_contents($tokenPath, json_encode($client->getAccessToken()));
+            } else {
+                throw new \Exception("Access token expired and no refresh token available.");
+            }
+        }
+
+        return $client;
+    }
+
+    public function getService()
+    {
+        return new Google_Service_Calendar($this->client);
+    }
+    public function createEvent($eventData)
+    {
+        try {
+            // Step 1: Create Event in Google Calendar
+            $googleEvent = new \Google_Service_Calendar_Event([
+                'summary' => $eventData['summary'],
+                'location' => $eventData['location'],
+                'description' => $eventData['description'],
+                'start' => [
+                    'dateTime' => $eventData['start'],
+                    'timeZone' => 'Asia/Karachi', // Adjust time zone as needed
+                ],
+                'end' => [
+                    'dateTime' => $eventData['end'],
+                    'timeZone' => 'Asia/Karachi', // Adjust time zone as needed
+                ],
+                'conferenceData' => [
+                    'createRequest' => [
+                        'requestId' => 'randomString'.time()
+                    ]
+                ]
+            ]);
+
+            // Insert the event into Google Calendar
+            $result = $this->service->events->insert('b5a8fa334f432678b567d65599ee6b835226a934b785529c3afb62ca9d89e6b0@group.calendar.google.com', $googleEvent);
+
+            // Step 2: Save Event in Local Database
+            $event = new Event([
+                'googleEventID' => $result->getId(), // Save Google Calendar event ID
+                'title' => $eventData['summary'],
+                'location' => $eventData['location'],
+                'description' => $eventData['description'],
+                'startDate' => $eventData['start'],
+                'endDate' => $eventData['end'],
+                'label' => $eventData['label'],
+                'eventUrl' => $eventData['eventUrl'],
+                'allDay' => $eventData['allDay'],
+                'userID' => Auth::user()->userID,
+            ]);
+
+            // Save the event to the local database
+            $event->save();
+
+            return [
+                'message' => 'Event created successfully in Google Calendar and local database',
+                'google_event' => $result,
+                'local_event' => $event,
+            ];
+
+        } catch (\Exception $e) {
+            return ['error' => 'Failed to create event: ' . $e->getMessage()];
+        }
     }
 
     public function listEvents($calendarId = 'primary')
@@ -30,63 +113,79 @@ class GoogleCalendarService
         return $events->getItems();
     }
 
-    public function createEvent($calendarId = 'primary', $eventData)
-    {
-        $event = new Calendar\Event($eventData);
-        return $this->service->events->insert($calendarId, $event);
-    }
 
-    public function updateEvent($calendarId = 'primary', $eventId, $eventData)
+    public function updateEvent($calendarId, $eventId, $eventData)
     {
-        $event = $this->service->events->get($calendarId, $eventId);
-        foreach ($eventData as $key => $value) {
-            $event[$key] = $value;
+        try {
+            // Step 1: Fetch the existing event from Google Calendar
+            $event = $this->service->events->get($calendarId, $eventId);
+
+            // Step 2: Manually apply the updates to the event
+            if (isset($eventData['title'])) {
+                $event->setSummary($eventData['title']);
+            }
+
+            if (isset($eventData['location'])) {
+                $event->setLocation($eventData['location']);
+            }
+
+            if (isset($eventData['description'])) {
+                $event->setDescription($eventData['description']);
+            }
+
+            // Update start time if provided
+            if (isset($eventData['start']) && is_array($eventData['start'])) {
+                $start = new \Google_Service_Calendar_EventDateTime();
+                $start->setDateTime($eventData['start']['dateTime']);
+                $start->setTimeZone($eventData['start']['timeZone']);
+                $event->setStart($start);
+            }
+
+            // Update end time if provided
+            if (isset($eventData['end']) && is_array($eventData['end'])) {
+                $end = new \Google_Service_Calendar_EventDateTime();
+                $end->setDateTime($eventData['end']['dateTime']);
+                $end->setTimeZone($eventData['end']['timeZone']);
+                $event->setEnd($end);
+            }
+
+            // Step 3: Ensure we are passing a Google_Service_Calendar_Event object to the update method
+            if (!$event instanceof \Google_Service_Calendar_Event) {
+                throw new \Exception("The event is not an instance of Google_Service_Calendar_Event.");
+            }
+
+            // Step 4: Update the event
+            $updatedEvent = $this->service->events->update($calendarId, $eventId, $event);
+
+            return $updatedEvent;
+        } catch (\Exception $e) {
+            throw new \Exception('Failed to update event: ' . $e->getMessage());
         }
-        return $this->service->events->update($calendarId, $eventId, $event);
     }
 
-    public function deleteEvent($calendarId = 'primary', $eventId)
+    public function deleteEvent($calendarId, $eventID)
     {
-        return $this->service->events->delete($calendarId, $eventId);
-    }
+        try {
+            // Step 1: Delete from Google Calendar
+            $event = Event::where('eventID', $eventID)->first();
+            $googleEventID = $event->googleEventID;
+            $this->service->events->delete($calendarId, $googleEventID);
 
-    public function fetchGoogleEvents(GoogleCalendarService $googleCalendar)
-    {
-        $events = $googleCalendar->listEvents();
-        return response()->json($events);
-    }
+            // Step 2: Delete from Local Database
+            // Assuming you have an Event model where events are stored in a 'events' table
 
-    use App\Services\GoogleCalendarService;
+            if ($event) {
+                // If the event exists in the local database, delete it
+                $event->delete();
+            } else {
+                // Handle case where event is not found in the local database
+                throw new \Exception('Event not found in local database.');
+            }
 
-    public function createGoogleEvent(Request $request, GoogleCalendarService $googleCalendar)
-    {
-        $eventData = [
-            'summary' => $request->title,
-            'start' => ['dateTime' => $request->start],
-            'end' => ['dateTime' => $request->end],
-            'description' => $request->description,
-        ];
-
-        $googleCalendar->createEvent('primary', $eventData);
-        return response()->json(['message' => 'Event created in Google Calendar.']);
-    }
-
-    public function updateGoogleEvent(Request $request, GoogleCalendarService $googleCalendar)
-    {
-        $eventData = [
-            'summary' => $request->title,
-            'start' => ['dateTime' => $request->start],
-            'end' => ['dateTime' => $request->end],
-            'description' => $request->description,
-        ];
-
-        $googleCalendar->updateEvent('primary', $request->google_event_id, $eventData);
-        return response()->json(['message' => 'Google Calendar event updated.']);
-    }
-
-    public function deleteGoogleEvent(Request $request, GoogleCalendarService $googleCalendar)
-    {
-        $googleCalendar->deleteEvent('primary', $request->google_event_id);
-        return response()->json(['message' => 'Event deleted from Google Calendar.']);
+            return ['message' => 'Event deleted successfully from both Google Calendar and local database'];
+        } catch (\Exception $e) {
+            // Handle any exceptions during the process
+            throw new \Exception('Failed to delete event: ' . $e->getMessage());
+        }
     }
 }

@@ -3,12 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Services\GoogleCalendarService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class EventsController extends Controller
 {
+    private $calendarService;
+
+    public function __construct(GoogleCalendarService $calendarService)
+    {
+        $this->calendarService = $calendarService;
+    }
     public function index()
     {
         return view('events.index');
@@ -16,7 +23,6 @@ class EventsController extends Controller
 
     public function fetchEvents(Request $request)
     {
-        // Fetch events from database or another source
         $events = Event::all(); // Example, replace with actual event fetching logic
         $formattedEvents = $events->map(function ($event) {
             return [
@@ -38,54 +44,21 @@ class EventsController extends Controller
 
     public function create(Request $request)
     {
-
-        $updatedEvents = Event::where('eventID', $request->id)->update([
-            'title' => $request->title ?? "",
-            'label' => $request->label ?? "",
-            'startDate' => $request->start ?? "" ,
-            'endDate' => $request->end ?? "",
-            'allDay' => $request->allDay === "true" ? 1 : 0,
-            'eventUrl' => $request->eventUrl ?? "",
-            'location' => $request->location ?? "",
-            'description' => $request->description ?? "",
-            'userID' => Auth::user()->userID
-        ]);
-
-
-        return response()->json([
-            "Status" => true,
-            "Message" => "Event Updated Successfully ..!!",
-            "Response" => $updatedEvents
-        ]);
-    }
-
-    public function store(Request $request)
-    {
-        $googleEventData = [
-            'summary' => $request->title ?? "Untitled Event",
-            'location' => $request->location ?? "",
-            'description' => $request->description ?? "",
-            'start' => [
-                'dateTime' => Carbon::parse($request->start)->toRfc3339String(), // Proper date format
-                'timeZone' => 'UTC', // Adjust if needed
-            ],
-            'end' => [
-                'dateTime' => Carbon::parse($request->end)->toRfc3339String(),
-                'timeZone' => 'UTC',
-            ],
-        ];
-
-        $calendarId = 'b5a8fa334f432678b567d65599ee6b835226a934b785529c3afb62ca9d89e6b0@group.calendar.google.com';
+        // Fetch the local event by ID
+        $localEvent = Event::findOrFail($request->id);
+        $eventData = $request->only(['title', 'location', 'description', 'start', 'end']);
 
         try {
-            // Call the service method to create the event
-            $googleEvent = $calendarService->createEvent($calendarId, $googleEventData);
+            $calendarId = 'b5a8fa334f432678b567d65599ee6b835226a934b785529c3afb62ca9d89e6b0@group.calendar.google.com'; // Or your specific calendar ID
 
-            // Retrieve the Google Event ID
-            $googleEventID = $googleEvent->id;
+            // Step 1: Fetch the existing Google Calendar event using the stored `google_event_id`
+            $googleEventID = $localEvent->googleEventID;
 
-            // Save to the database
-            $event = Event::create([
+            // Step 3: Save the updated event to Google Calendar
+            $updatedEvent = $this->calendarService->updateEvent($calendarId, $googleEventID, $eventData);
+
+            // Step 4: Update the local database
+            $event = Event::where('eventID', $request->id)->update([
                 'title' => $request->title ?? "",
                 'label' => $request->label ?? "",
                 'startDate' => $request->start ?? "",
@@ -97,22 +70,42 @@ class EventsController extends Controller
                 'userID' => Auth::user()->userID,
                 'googleEventID' => $googleEventID, // Save Google Event ID
             ]);
-        } catch (\Exception $e) {
+
             return response()->json([
-                "Status" => false,
-                "Message" => "Failed to sync event with Google Calendar.",
-                "Error" => $e->getMessage(), // Error message for debugging
-            ], 500);
+                'message' => 'Event updated successfully',
+                'Googel Events Updated' => $updatedEvent,
+                'Local Events Update' => $event,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to update event', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function store(Request $request)
+    {
+        $eventData = [
+            'summary' => $request->input('title'),
+            'location' => $request->input('location'),
+            'description' => $request->input('description'),
+            'start' => $request->input('startDate'),
+            'end' => $request->input('endDate'),
+            'allDay' => $request->input('allDay'),
+            'eventUrl' => $request->input('eventUrl'),
+            'label' => $request->input('label'),
+        ];
+
+        // Call the service method to create event in both Google Calendar and local database
+        $result = $this->calendarService->createEvent($eventData);
+
+        if (isset($result['error'])) {
+            return response()->json(['message' => $result['error']], 500);
         }
 
-        // Respond with success
         return response()->json([
-            "Status" => true,
-            "Message" => "Event Added and Synced Successfully ..!!",
-            "Response" => $event,
-            "GoogleEventID" => $googleEventID,
-        ]);
-
+            'message' => $result['message'],
+            'googleEvent' => $result['google_event'],
+            'localEvent' => $result['local_event'],
+        ], 201);
     }
 
     public function show(Event $events)
@@ -134,12 +127,15 @@ class EventsController extends Controller
 
     public function delete(Request $request)
     {
-        $events = Event::destroy($request->id);
-        return response()->json([
-            "Status" => true,
-            "Message" => "Event Deleted Successfully ..!!",
-            "Response" => $events
-        ]);
+        try {
+            // Assuming $calendarId is 'primary' or a specific calendar ID
+            $calendarId = 'b5a8fa334f432678b567d65599ee6b835226a934b785529c3afb62ca9d89e6b0@group.calendar.google.com';
+            $result = $this->calendarService->deleteEvent($calendarId, $request->id);
+
+            return response()->json(['message' => $result['message']], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to delete event', 'error' => $e->getMessage()], 500);
+        }
     }
 
 }

@@ -17,8 +17,8 @@ class CreateEventTable extends Migration
             $table->id('eventID');
             $table->string('title');
             $table->string('label');
-            $table->string('startDate');
-            $table->string('endDate');
+            $table->dateTime('startDate');
+            $table->dateTime('endDate');
             $table->boolean('allDay')->default(0);
             $table->string('eventUrl')->nullable();
             $table->string('location')->nullable();
