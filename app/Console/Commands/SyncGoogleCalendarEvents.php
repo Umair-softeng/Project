@@ -13,25 +13,25 @@ use Illuminate\Console\Command;
 class SyncGoogleCalendarEvents extends Command
 {
 //    protected $googleService;
-//    protected $signature = 'calendar:sync';
-//
-//    // The console command description.
-//    protected $description = 'Sync events from Google Calendar to the local database';
-//
-//    // The Google Client instance
+    protected $signature = 'calendar:sync';
+
+    // The console command description.
+    protected $description = 'Sync events from Google Calendar to the local database';
+
+    // The Google Client instance
 //    protected $client;
 //    protected $service;
-//
-//    // Create a new command instance.
+
+    // Create a new command instance.
 //    public function __construct(GoogleCalendarService $googleService)
 //    {
 //        parent::__construct();
 //        $this->googleService = $googleService; // Make sure this is set properly
 //    }
-//
-//    // Execute the console command.
-//    public function handle()
-//    {
+
+    // Execute the console command.
+    public function handle()
+    {
 //        try {
 //            $this->info('Sync started at ' . now());
 //
@@ -96,5 +96,5 @@ class SyncGoogleCalendarEvents extends Command
 //            Log::error('General Error: ' . $e->getMessage());
 //            $this->error('Error: ' . $e->getMessage());
 //        }
-//    }
+    }
 }
