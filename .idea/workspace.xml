@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e12dbeb7-b15c-49fd-89ef-8dc7e378b863" name="Changes" comment="Changes">
-      <change beforePath="$PROJECT_DIR$/app/Services/GoogleCalendarService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/GoogleCalendarService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Commands/SyncGoogleCalendarEvents.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/SyncGoogleCalendarEvents.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Kernel.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -290,7 +291,7 @@
       <workItem from="1732799553417" duration="594000" />
       <workItem from="1732818753711" duration="583000" />
       <workItem from="1733922952214" duration="7287000" />
-      <workItem from="1733946072196" duration="1692000" />
+      <workItem from="1733946072196" duration="1741000" />
     </task>
     <servers />
   </component>

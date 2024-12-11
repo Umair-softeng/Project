@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('calendar:sync')->everyMinute(); // Run every hour, adjust as needed
+//        $schedule->command('calendar:sync')->everyMinute(); // Run every hour, adjust as needed
     }
 
     protected function commands()
