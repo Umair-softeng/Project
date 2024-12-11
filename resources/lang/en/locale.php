@@ -211,5 +211,6 @@ return [
     "Code Editor" => "Code Editor",
     "Painting" => "Painting",
     "Circuit & Design" => "Circuit & Design",
+    "Appointments" => "Appointments",
 
 ];

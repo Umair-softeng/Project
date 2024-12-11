@@ -36,6 +36,14 @@
 
         },
         {
+            "name": "Appointments",
+            "badgeClass": "badge badge-glow bg-primary rounded-pill ms-auto me-1",
+            "icon": "fa-solid fa-calendar-check fa-beat",
+            "slug": "",
+            "url": "/events"
+
+        },
+        {
             "navheader": "Authentication"
         },
         {

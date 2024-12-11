@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GoogleController;
+use App\Services\GoogleCalendarService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +24,7 @@ Route::get('/', [\App\Http\Controllers\Auth\LoginController::class, 'showLoginFo
 Route::get('/user/create', [App\Http\Controllers\Admin\UserController::class, 'create'])->name('user.create');
 Route::post('/user/store', [App\Http\Controllers\Admin\UserController::class, 'store'])->name('user.store');
 Route::group(['middleware' => 'auth'], function(){
+
     //User Roles
     Route::group(['prefix' => 'admin'], function (){
         Route::get('/user', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('user.index');
@@ -53,15 +58,18 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/codeEditor/{codeEditor}/edit', [App\Http\Controllers\CodeController::class, 'edit'])->name('codeEditor.edit');
     Route::put('codeEditor/{codeEditor}', [App\Http\Controllers\CodeController::class, 'update'])->name('codeEditor.update');
     Route::delete('/codeEditor/{codeEditor}', [App\Http\Controllers\CodeController::class, 'destroy'])->name('codeEditor.destroy');
-    //Company
-//    Route::get('/company', [App\Http\Controllers\CompanyController::class, 'index'])->name('company.index');
-//    Route::get('/company/create', [App\Http\Controllers\CompanyController::class, 'create'])->name('company.create');
-//    Route::post('/company/store', [App\Http\Controllers\CompanyController::class, 'store'])->name('company.store');
-//    Route::get('/company/show/{company}', [App\Http\Controllers\CompanyController::class, 'show'])->name('company.show');
-//    Route::get('/company/{company}/edit', [App\Http\Controllers\CompanyController::class, 'edit'])->name('company.edit');
-//    Route::put('company/{company}', [App\Http\Controllers\CompanyController::class, 'update'])->name('company.update');
-//    Route::delete('/company/{company}', [App\Http\Controllers\CompanyController::class, 'destroy'])->name('company.destroy');
 
+    //Calendar
+    Route::get('/google/auth', [GoogleController::class, 'redirectToGoogle'])->name('google.auth');
+    Route::get('/oauth2/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('oauth.callback');
+
+    // Events Routes
+    Route::prefix('events')->name('events.')->group(function () {
+        Route::resource('/', App\Http\Controllers\EventsController::class);
+        Route::get('/delete', [App\Http\Controllers\EventsController::class, 'delete']);
+        Route::get('/fetchEvents', [App\Http\Controllers\EventsController::class, 'fetchEvents']);
+
+    });
 
 });
 

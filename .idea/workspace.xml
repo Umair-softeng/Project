@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="e12dbeb7-b15c-49fd-89ef-8dc7e378b863" name="Changes" comment="Changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/data/menu-data/verticalMenu.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/menu-data/verticalMenu.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/locale.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/locale.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/EventsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/EventsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/GoogleCalendarService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/GoogleCalendarService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2024_11_21_123759_create_event_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2024_11_21_123759_create_event_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/token.json" beforeDir="false" afterPath="$PROJECT_DIR$/token.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,6 +23,13 @@
   <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="tsconfig.json" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -29,7 +45,7 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration">
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\xampp\php\php.exe">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/phpunit/phpunit" />
       <path value="$PROJECT_DIR$/vendor/phpunit/php-code-coverage" />
@@ -143,33 +159,51 @@
       <path value="$PROJECT_DIR$/vendor/symfony/yaml" />
       <path value="$PROJECT_DIR$/vendor/laravel/ui" />
       <path value="$PROJECT_DIR$/vendor/yajra/laravel-datatables-oracle" />
+      <path value="$PROJECT_DIR$/vendor/league/oauth1-client" />
+      <path value="$PROJECT_DIR$/vendor/laravel/socialite" />
+      <path value="$PROJECT_DIR$/vendor/firebase/php-jwt" />
+      <path value="$PROJECT_DIR$/vendor/paragonie/constant_time_encoding" />
+      <path value="$PROJECT_DIR$/vendor/paragonie/random_compat" />
+      <path value="$PROJECT_DIR$/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/vendor/phpseclib/phpseclib" />
+      <path value="$PROJECT_DIR$/vendor/google/apiclient" />
+      <path value="$PROJECT_DIR$/vendor/google/apiclient-services" />
+      <path value="$PROJECT_DIR$/vendor/google/auth" />
     </include_path>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="2Ndfu5wZrfrXBtLJMr9eBC61JNc" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.tslint" value="true" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/xampp/htdocs/Project/storage/app",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\Project\storage\app" />
       <recent name="C:\xampp\htdocs\Project" />
       <recent name="C:\xampp\htdocs\Project\resources\views" />
       <recent name="C:\xampp\htdocs\Hrms\resources\views" />
       <recent name="C:\xampp\htdocs\Hrms\public\images\logo" />
-      <recent name="C:\xampp\htdocs\Hrms" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\Project\resources\views\text" />
@@ -180,6 +214,14 @@
       <TestRunner scope="XML" />
       <method v="2" />
     </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-PS-243.21565.202" />
+        <option value="bundled-php-predefined-a98d8de5180a-5fbe0c30323e-com.jetbrains.php.sharedIndexes-PS-243.21565.202" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -213,6 +255,45 @@
       <workItem from="1727357424237" duration="45000" />
       <workItem from="1728595036104" duration="653000" />
       <workItem from="1729012555399" duration="292000" />
+      <workItem from="1731951029719" duration="800000" />
+      <workItem from="1732213107658" duration="769000" />
+      <workItem from="1732215193353" duration="1793000" />
+      <workItem from="1732217008348" duration="517000" />
+      <workItem from="1732217778545" duration="1835000" />
+      <workItem from="1732219637591" duration="1785000" />
+      <workItem from="1732221445037" duration="857000" />
+      <workItem from="1732269571775" duration="1771000" />
+      <workItem from="1732271368505" duration="1805000" />
+      <workItem from="1732273194569" duration="1796000" />
+      <workItem from="1732275026083" duration="1793000" />
+      <workItem from="1732276839439" duration="1461000" />
+      <workItem from="1732292237759" duration="1947000" />
+      <workItem from="1732294208647" duration="981000" />
+      <workItem from="1732296013557" duration="1824000" />
+      <workItem from="1732297863986" duration="1807000" />
+      <workItem from="1732299696378" duration="1548000" />
+      <workItem from="1732366787801" duration="1817000" />
+      <workItem from="1732369210445" duration="1785000" />
+      <workItem from="1732371015939" duration="983000" />
+      <workItem from="1732459651602" duration="1524000" />
+      <workItem from="1732461482052" duration="1786000" />
+      <workItem from="1732463289469" duration="1816000" />
+      <workItem from="1732465125569" duration="1821000" />
+      <workItem from="1732466967271" duration="1813000" />
+      <workItem from="1732468823052" duration="1785000" />
+      <workItem from="1732470629848" duration="1786000" />
+      <workItem from="1732472491902" duration="1819000" />
+      <workItem from="1732474334334" duration="1498000" />
+      <workItem from="1732476139785" duration="1785000" />
+      <workItem from="1732477946544" duration="1786000" />
+      <workItem from="1732479755287" duration="1784000" />
+      <workItem from="1732481589450" duration="1852000" />
+      <workItem from="1732483461401" duration="2524000" />
+      <workItem from="1732555304631" duration="2032000" />
+      <workItem from="1732557778785" duration="245000" />
+      <workItem from="1732558843020" duration="2397000" />
+      <workItem from="1732563555671" duration="10597000" />
+      <workItem from="1732642519971" duration="11974000" />
     </task>
     <servers />
   </component>
@@ -229,7 +310,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
