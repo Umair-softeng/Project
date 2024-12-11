@@ -8,7 +8,7 @@
 /public/css
 /public/css-rtl
 /public/vendors
-/storage/*.key
+#/storage/*.key
 /vendor
 .env
 .env.backup
