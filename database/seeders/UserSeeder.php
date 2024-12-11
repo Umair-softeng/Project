@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         $aryUsers = [
-            ['userID' => 1, 'name' => 'Mujtaba','email' => 'mujtaba@gmail.com' ,'password' => \Illuminate\Support\Facades\Hash::make('mujtaba123')],
+            ['userID' => 1, 'name' => 'Waqar','email' => 'waqar@gmail.com' ,'password' => \Illuminate\Support\Facades\Hash::make('waqar123')],
         ];
         foreach ($aryUsers as $user) {
             DB::table('users')->insert([
