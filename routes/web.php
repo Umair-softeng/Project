@@ -61,6 +61,7 @@ Route::group(['middleware' => 'auth'], function(){
 
     //Calendar
     Route::get('/google/auth', [GoogleController::class, 'redirectToGoogle'])->name('google.auth');
+    Route::get('/oauth/authorize', [GoogleController::class, 'authorizeGoogle'])->name('oauth.authorize');
     Route::get('/oauth2/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('oauth.callback');
 
     // Events Routes

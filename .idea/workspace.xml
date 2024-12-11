@@ -6,12 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="e12dbeb7-b15c-49fd-89ef-8dc7e378b863" name="Changes" comment="Changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Console/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Kernel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/EventsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/EventsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/GoogleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/GoogleController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Services/GoogleCalendarService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/GoogleCalendarService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2024_11_21_123759_create_event_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2024_11_21_123759_create_event_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/ModuleSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/ModuleSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/PrivilegeSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/PrivilegeSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/RolePrivilegeSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/RolePrivilegeSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/data/menu-data/verticalMenu.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/menu-data/verticalMenu.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/token.json" beforeDir="false" afterPath="$PROJECT_DIR$/token.json" afterDir="false" />
     </list>
@@ -183,20 +184,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/xampp/htdocs/Project/storage/app",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/xampp/htdocs/Project&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\Project\storage\app" />
@@ -293,7 +294,12 @@
       <workItem from="1732557778785" duration="245000" />
       <workItem from="1732558843020" duration="2397000" />
       <workItem from="1732563555671" duration="10597000" />
-      <workItem from="1732642519971" duration="11974000" />
+      <workItem from="1732642519971" duration="12133000" />
+      <workItem from="1732724206803" duration="952000" />
+      <workItem from="1732799553417" duration="594000" />
+      <workItem from="1732818753711" duration="583000" />
+      <workItem from="1733922952214" duration="7287000" />
+      <workItem from="1733946072196" duration="378000" />
     </task>
     <servers />
   </component>

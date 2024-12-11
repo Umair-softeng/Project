@@ -31,22 +31,47 @@ class GoogleController extends Controller {
     // Step 2: Handle the callback from Google OAuth
     public function handleGoogleCallback(Request $request)
     {
-        dd($request);
+
         // Retrieve the authorization code
-        $code = $request->get('code');
+        $client = new Google_Client();
+        $client->setAuthConfig(storage_path('app/google-calendar-credentials.json'));
+        $client->setRedirectUri(route('oauth.callback'));
+        $client->setAccessType('offline');
+        $client->setPrompt('consent');
 
-        if (isset($code)) {
-            // Authenticate the user with the provided code
-            $this->googleClient->fetchAccessTokenWithAuthCode($code);
-            $accessToken = $this->googleClient->getAccessToken();
+        // Check if 'code' is present in the request
+        if ($request->has('code')) {
+            $authCode = $request->get('code');
 
-            // Store the access token in session for future API requests
-            session(['google_token' => $accessToken]);
+            // Exchange authorization code for access token
+            try {
+                $accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
+                $tokenPath = storage_path('app/token.json');
+                file_put_contents($tokenPath, json_encode($accessToken));
 
-            return redirect()->route('events.show'); // Redirect to the events page or anywhere else
+                // Redirect to a success page or a route where you want the user to land
+                return redirect()->route('events.index')->with('success', 'Authentication successful!');
+            } catch (\Exception $e) {
+                return redirect()->route('oauth.authorize')->with('error', 'Failed to authenticate: ' . $e->getMessage());
+            }
+        } else {
+            return redirect()->route('oauth.authorize')->with('error', 'No authorization code found.');
         }
-
-        // Handle errors if no code is received
-        return redirect()->route('google.auth')->withErrors('Error during authentication');
     }
+
+    public function authorizeGoogle()
+    {
+        $client = new Google_Client();
+        $client->setApplicationName('Google Calendar API PHP');
+        $client->setScopes(Google_Service_Calendar::CALENDAR);
+        $client->setAuthConfig(storage_path('app/google-calendar-credentials.json'));
+        $client->setRedirectUri(route('oauth.callback'));
+        $client->setAccessType('offline');
+        $client->setPrompt('consent');
+
+        // Generate the authorization URL and redirect the user
+        $authUrl = $client->createAuthUrl();
+        return redirect()->away($authUrl);
+    }
+
 }

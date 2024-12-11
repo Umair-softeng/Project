@@ -24,30 +24,35 @@ class GoogleCalendarService
         $client = new Google_Client();
         $client->setApplicationName('Google Calendar API PHP');
         $client->setScopes(Google_Service_Calendar::CALENDAR);
-        $client->setAuthConfig(storage_path('app/google-calendar-credentials.json')); // Path to your credentials
-        $client->setRedirectUri(route('oauth.callback')); // Callback route
-        $client->setAccessType('offline');
-        $client->setPrompt('consent');
+        $client->setAuthConfig(storage_path('app/google-calendar-credentials.json'));
+        $client->setRedirectUri(route('oauth.callback'));
+        $client->setAccessType('offline'); // Ensures refresh token is generated
+        $client->setPrompt('consent');     // Forces consent screen to show
 
-        // Load token from storage
         $tokenPath = storage_path('app/token.json');
+
         if (file_exists($tokenPath)) {
             $accessToken = json_decode(file_get_contents($tokenPath), true);
             $client->setAccessToken($accessToken);
         }
 
-        // Refresh token if access token is expired
+        // If no token exists or the token is expired, prompt for new authentication
         if ($client->isAccessTokenExpired()) {
             if ($client->getRefreshToken()) {
+                // Use refresh token to get a new access token
                 $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
                 file_put_contents($tokenPath, json_encode($client->getAccessToken()));
             } else {
-                throw new \Exception("Access token expired and no refresh token available.");
+                // No refresh token available, start the OAuth flow
+                $authUrl = $client->createAuthUrl();
+                header('Location: ' . $authUrl);
+                exit;
             }
         }
 
         return $client;
     }
+
 
     public function getService()
     {
@@ -62,11 +67,11 @@ class GoogleCalendarService
                 'location' => $eventData['location'],
                 'description' => $eventData['description'],
                 'start' => [
-                    'dateTime' => $eventData['start'],
+                    'dateTime' => "2024-06-10T10:00:00",
                     'timeZone' => 'Asia/Karachi', // Adjust time zone as needed
                 ],
                 'end' => [
-                    'dateTime' => $eventData['end'],
+                    'dateTime' => "2024-06-10T10:00:00",
                     'timeZone' => 'Asia/Karachi', // Adjust time zone as needed
                 ],
                 'conferenceData' => [
@@ -75,7 +80,6 @@ class GoogleCalendarService
                     ]
                 ]
             ]);
-
             // Insert the event into Google Calendar
             $result = $this->service->events->insert('b5a8fa334f432678b567d65599ee6b835226a934b785529c3afb62ca9d89e6b0@group.calendar.google.com', $googleEvent);
 
@@ -89,7 +93,7 @@ class GoogleCalendarService
                 'endDate' => $eventData['end'],
                 'label' => $eventData['label'],
                 'eventUrl' => $eventData['eventUrl'],
-                'allDay' => $eventData['allDay'],
+                'allDay' => $eventData['allDay'] ?? 0,
                 'userID' => Auth::user()->userID,
             ]);
 

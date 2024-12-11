@@ -35,6 +35,10 @@ class RolePrivilegeSeeder extends Seeder
             ['roleID' => 1,'privilegeID' => 18],
             ['roleID' => 1,'privilegeID' => 19],
             ['roleID' => 1,'privilegeID' => 20],
+            ['roleID' => 1,'privilegeID' => 21],
+            ['roleID' => 1,'privilegeID' => 22],
+            ['roleID' => 1,'privilegeID' => 23],
+            ['roleID' => 1,'privilegeID' => 24],
 
             ['roleID' => 2,'privilegeID' => 1],
             ['roleID' => 2,'privilegeID' => 2],

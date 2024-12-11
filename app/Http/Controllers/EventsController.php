@@ -83,12 +83,13 @@ class EventsController extends Controller
 
     public function store(Request $request)
     {
+
         $eventData = [
             'summary' => $request->input('title'),
             'location' => $request->input('location'),
             'description' => $request->input('description'),
-            'start' => $request->input('startDate'),
-            'end' => $request->input('endDate'),
+            'start' => $request->input('start'),
+            'end' => $request->input('end'),
             'allDay' => $request->input('allDay'),
             'eventUrl' => $request->input('eventUrl'),
             'label' => $request->input('label'),

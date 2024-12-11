@@ -40,6 +40,11 @@ class PrivilegeSeeder extends Seeder
             ['moduleID' => 5, 'accessLevelID' => 3, 'privilegeCode' => 'PAINTING', 'privilegeName' => 'Painting Update'],
             ['moduleID' => 5, 'accessLevelID' => 4, 'privilegeCode' => 'PAINTING', 'privilegeName' => 'Painting Delete'],
 
+            ['moduleID' => 6, 'accessLevelID' => 1, 'privilegeCode' => 'APPOINTMENTS', 'privilegeName' => 'Appointments Create'],
+            ['moduleID' => 6, 'accessLevelID' => 2, 'privilegeCode' => 'APPOINTMENTS', 'privilegeName' => 'Appointments Read'],
+            ['moduleID' => 6, 'accessLevelID' => 3, 'privilegeCode' => 'APPOINTMENTS', 'privilegeName' => 'Appointments Update'],
+            ['moduleID' => 6, 'accessLevelID' => 4, 'privilegeCode' => 'APPOINTMENTS', 'privilegeName' => 'Appointments Delete'],
+
         ];
         foreach ($aryPrivileges as $privilege) {
             DB::table('privileges')->insert(
