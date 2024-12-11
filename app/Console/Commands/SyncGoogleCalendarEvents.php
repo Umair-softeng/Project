@@ -1,17 +1,17 @@
 <?php
-//
-//namespace App\Console\Commands;
-//
-//use App\Models\Event;
-//use App\Services\GoogleCalendarService;
-//use Carbon\Carbon;
-//use Illuminate\Support\Facades\Auth;
-//use Illuminate\Support\Facades\DB;
-//use Illuminate\Support\Facades\Log;
-//use Illuminate\Console\Command;
-//
-//class SyncGoogleCalendarEvents extends Command
-//{
+
+namespace App\Console\Commands;
+
+use App\Models\Event;
+use App\Services\GoogleCalendarService;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Console\Command;
+
+class SyncGoogleCalendarEvents extends Command
+{
 //    protected $googleService;
 //    protected $signature = 'calendar:sync';
 //
@@ -97,4 +97,4 @@
 //            $this->error('Error: ' . $e->getMessage());
 //        }
 //    }
-//}
+}
