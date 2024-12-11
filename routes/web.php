@@ -60,17 +60,17 @@ Route::group(['middleware' => 'auth'], function(){
     Route::delete('/codeEditor/{codeEditor}', [App\Http\Controllers\CodeController::class, 'destroy'])->name('codeEditor.destroy');
 
     //Calendar
-    Route::get('/google/auth', [GoogleController::class, 'redirectToGoogle'])->name('google.auth');
-    Route::get('/oauth/authorize', [GoogleController::class, 'authorizeGoogle'])->name('oauth.authorize');
-    Route::get('/oauth2/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('oauth.callback');
-
-    // Events Routes
-    Route::prefix('events')->name('events.')->group(function () {
-        Route::resource('/', App\Http\Controllers\EventsController::class);
-        Route::get('/delete', [App\Http\Controllers\EventsController::class, 'delete']);
-        Route::get('/fetchEvents', [App\Http\Controllers\EventsController::class, 'fetchEvents']);
-
-    });
+//    Route::get('/google/auth', [GoogleController::class, 'redirectToGoogle'])->name('google.auth');
+//    Route::get('/oauth/authorize', [GoogleController::class, 'authorizeGoogle'])->name('oauth.authorize');
+//    Route::get('/oauth2/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('oauth.callback');
+//
+//    // Events Routes
+//    Route::prefix('events')->name('events.')->group(function () {
+//        Route::resource('/', App\Http\Controllers\EventsController::class);
+//        Route::get('/delete', [App\Http\Controllers\EventsController::class, 'delete']);
+//        Route::get('/fetchEvents', [App\Http\Controllers\EventsController::class, 'fetchEvents']);
+//
+//    });
 
 });
 
