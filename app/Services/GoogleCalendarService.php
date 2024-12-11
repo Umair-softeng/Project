@@ -1,15 +1,15 @@
 <?php
-//
-//namespace App\Services;
-//
-//use App\Models\Event;
-//use Google_Client;
-//use Google_Service_Calendar;
-//use Google_Service_Calendar_Event;
-//use Illuminate\Support\Facades\Auth;
-//
-//class GoogleCalendarService
-//{
+
+namespace App\Services;
+
+use App\Models\Event;
+use Google_Client;
+use Google_Service_Calendar;
+use Google_Service_Calendar_Event;
+use Illuminate\Support\Facades\Auth;
+
+class GoogleCalendarService
+{
 //    protected $client;
 //    protected $service;
 //
@@ -192,4 +192,4 @@
 //            throw new \Exception('Failed to delete event: ' . $e->getMessage());
 //        }
 //    }
-//}
+}
